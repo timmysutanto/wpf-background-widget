@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Counter" Height="200" Width="200"
         WindowStyle="None" AllowsTransparency="True" 
-        Background="Transparent" ShowInTaskbar="False"
-        Topmost="False" MouseDown="Window_MouseDown">
+        Background="Transparent" ShowInTaskbar="True"
+        Topmost="True" MouseDown="Window_MouseDown" WindowStartupLocation="CenterScreen">
 
     <Border Background="#AA121212" CornerRadius="100" 
             BorderBrush="#44FFFFFF" BorderThickness="2">
