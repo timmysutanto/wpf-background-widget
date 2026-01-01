@@ -32,17 +32,23 @@ public partial class MainWindow : Window
         SetWindowPos(hWnd, HWND_BOTTOM, Convert.ToInt32(this.Left), Convert.ToInt32(this.Top), Convert.ToInt32(this.Left), Convert.ToInt32(this.Top), SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
     }
 
-    private void Increment_Click(object sender, RoutedEventArgs e)
-    {
-        _count++;
-        CounterDisplay.Text = _count.ToString();
-    }
+    // private void Increment_Click(object sender, RoutedEventArgs e)
+    // {
+    //     _count++;
+    //     CounterDisplay.Text = _count.ToString();
+    // }
+    //
+    // private void Decrement_Click(object sender, RoutedEventArgs e)
+    // {
+    //     _count--;
+    //     CounterDisplay.Text = _count.ToString();
+    // }
 
     private void Window_MouseDown(object sender, MouseButtonEventArgs e)
     {
         if (e.ChangedButton == MouseButton.Left) DragMove();
     }
 
-    private void Reset_Click(object sender, RoutedEventArgs e) => CounterDisplay.Text = (_count = 0).ToString();
+    // private void Reset_Click(object sender, RoutedEventArgs e) => CounterDisplay.Text = (_count = 0).ToString();
     private void Exit_Click(object sender, RoutedEventArgs e) => Application.Current.Shutdown();
 }
