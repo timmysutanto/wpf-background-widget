@@ -1,14 +1,14 @@
 ﻿using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media.Imaging;
 
 namespace CounterWidget;
 
 public partial class MainWindow : Window
 {
-    private int _count = 0;
-
     // Win32 constants for desktop pinning
     private static readonly IntPtr HWND_BOTTOM = new(9999);
     private const uint SWP_NOSIZE = 0x0001;
@@ -31,18 +31,11 @@ public partial class MainWindow : Window
         IntPtr hWnd = new WindowInteropHelper(this).Handle;
         SetWindowPos(hWnd, HWND_BOTTOM, Convert.ToInt32(this.Left), Convert.ToInt32(this.Top), Convert.ToInt32(this.Left), Convert.ToInt32(this.Top), SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
     }
-
-    // private void Increment_Click(object sender, RoutedEventArgs e)
-    // {
-    //     _count++;
-    //     CounterDisplay.Text = _count.ToString();
-    // }
-    //
-    // private void Decrement_Click(object sender, RoutedEventArgs e)
-    // {
-    //     _count--;
-    //     CounterDisplay.Text = _count.ToString();
-    // }
+    
+    private void Load_Card(object sender, RoutedEventArgs e)
+    {
+        LoadImage("pack://application:,,,/Resources/Cards/club_2.png");
+    }
 
     private void Window_MouseDown(object sender, MouseButtonEventArgs e)
     {
@@ -51,4 +44,22 @@ public partial class MainWindow : Window
 
     // private void Reset_Click(object sender, RoutedEventArgs e) => CounterDisplay.Text = (_count = 0).ToString();
     private void Exit_Click(object sender, RoutedEventArgs e) => Application.Current.Shutdown();
+
+    private void LoadImage(string imagePath)
+    {
+        BitmapImage  image = new BitmapImage();
+        image.BeginInit();
+        image.UriSource = new Uri(imagePath);
+        image.CacheOption = BitmapCacheOption.OnLoad;
+        image.EndInit();
+
+        Image img = new Image();
+        img.Source = image;
+        img.Width = 150;
+        img.Height = 210;
+        img.Stretch = System.Windows.Media.Stretch.Uniform;
+        
+        Dealer1Canvas.Children.Clear();
+        Dealer1Canvas.Children.Add(img);
+    }
 }
