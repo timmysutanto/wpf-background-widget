@@ -5,7 +5,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 
-namespace CounterWidget;
+namespace wpf_background_widget;
 
 public partial class MainWindow : Window
 {
