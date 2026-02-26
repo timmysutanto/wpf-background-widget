@@ -107,6 +107,8 @@ public partial class MainWindow : Window
         Grid.SetRow(_playerCanvas3, 4);
         Grid.SetColumn(_playerCanvas3, playerCardsCount - 1);
         FormLayoutGrid.Children.Add(_playerCanvas3);
+        
+        Grid.SetColumnSpan(ButtonStackPanel, playerCardsCount);
     }
 
     private void Window_MouseDown(object sender, MouseButtonEventArgs e)
