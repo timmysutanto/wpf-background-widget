@@ -43,9 +43,25 @@ public partial class MainWindow : Window
         SetWindowPos(hWnd, HWND_BOTTOM, Convert.ToInt32(this.Left), Convert.ToInt32(this.Top), Convert.ToInt32(this.Left), Convert.ToInt32(this.Top), SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
     }
     
-    private void Load_Card(object sender, RoutedEventArgs e)
+    private void Init_Dealer_Card(object sender, RoutedEventArgs e)
     {
-        LoadImage("pack://application:,,,/Resources/Cards/" + GetRandomCardNumberSuit() + ".png");
+        string cardSuitNumber;
+        
+        // First Card
+        cardSuitNumber = GetRandomCardNumberSuit();
+        if (cardSuitNumber  == "")
+        {
+            return;
+        }
+        LoadImage(DealerCanvas1, "pack://application:,,,/Resources/Cards/" + GetRandomCardNumberSuit() + ".png");
+        
+        // Second Card
+        cardSuitNumber = GetRandomCardNumberSuit();
+        if (cardSuitNumber  == "")
+        {
+            return;
+        }
+        LoadImage(DealerCanvas2,"pack://application:,,,/Resources/Cards/" + GetRandomCardNumberSuit() + ".png");
     }
 
     private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -56,7 +72,7 @@ public partial class MainWindow : Window
     // private void Reset_Click(object sender, RoutedEventArgs e) => CounterDisplay.Text = (_count = 0).ToString();
     private void Exit_Click(object sender, RoutedEventArgs e) => Application.Current.Shutdown();
 
-    private void LoadImage(string imagePath)
+    private void LoadImage(Canvas canvas, string imagePath)
     {
         BitmapImage  image = new BitmapImage();
         image.BeginInit();
@@ -70,27 +86,33 @@ public partial class MainWindow : Window
         img.Height = 210;
         img.Stretch = System.Windows.Media.Stretch.Uniform;
         
-        Dealer1Canvas.Children.Clear();
-        Dealer1Canvas.Children.Add(img);
+        canvas.Children.Clear();
+        canvas.Children.Add(img);
     }
 
     private string GetRandomCardNumberSuit()
     {
-        bool found = false;
+        var result="";
+
+        if (CardsOnTable.Count() >= 52)
+        {
+            return result;
+        }
+        
         string chosenCardSuit;
         string chosenCardNumber;
-        string result="";
-        while (!found)
+        while (true)
         {
             chosenCardSuit = Random.Shared.GetItems(CardSuits.ToArray(), 1)[0];
             chosenCardNumber = Random.Shared.GetItems(CardNumbers.ToArray(), 1)[0];
             result = chosenCardSuit + "_" + chosenCardNumber;
-            if (!CardsOnTable.Contains(result))
+            if (CardsOnTable.Contains(result))
             {
-                CardsOnTable.Add(result);
-                return result;
+                continue;
             }
+
+            CardsOnTable.Add(result);
+            return result;
         }
-        return result;
     }
 }
