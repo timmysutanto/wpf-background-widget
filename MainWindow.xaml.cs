@@ -43,11 +43,11 @@ public partial class MainWindow : Window
         SetWindowPos(hWnd, HWND_BOTTOM, Convert.ToInt32(this.Left), Convert.ToInt32(this.Top), Convert.ToInt32(this.Left), Convert.ToInt32(this.Top), SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
     }
     
-    private void Init_Dealer_Card(object sender, RoutedEventArgs e)
+    private void Init_Dealer_And_Player_Card(object sender, RoutedEventArgs e)
     {
         string cardSuitNumber;
         
-        // First Card
+        // First Dealer Card
         cardSuitNumber = GetRandomCardNumberSuit();
         if (cardSuitNumber  == "")
         {
@@ -55,13 +55,29 @@ public partial class MainWindow : Window
         }
         LoadImage(DealerCanvas1, "pack://application:,,,/Resources/Cards/" + cardSuitNumber + ".png");
         
-        // Second Card
+        // Second Dealer Card
         cardSuitNumber = GetRandomCardNumberSuit();
         if (cardSuitNumber  == "")
         {
             return;
         }
         LoadImage(DealerCanvas2,"pack://application:,,,/Resources/Cards/" + cardSuitNumber + ".png");
+        
+        // First Player Card
+        cardSuitNumber = GetRandomCardNumberSuit();
+        if (cardSuitNumber  == "")
+        {
+            return;
+        }
+        LoadImage(PlayerCanvas1, "pack://application:,,,/Resources/Cards/" + cardSuitNumber + ".png");
+        
+        // Second Player Card
+        cardSuitNumber = GetRandomCardNumberSuit();
+        if (cardSuitNumber  == "")
+        {
+            return;
+        }
+        LoadImage(PlayerCanvas2,"pack://application:,,,/Resources/Cards/" + cardSuitNumber + ".png");
     }
 
     private void Window_MouseDown(object sender, MouseButtonEventArgs e)

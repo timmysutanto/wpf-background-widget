@@ -31,7 +31,7 @@
                        Text="0" Foreground="White" FontSize="50" FontWeight="Bold" 
                        HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10"/>
             
-            <Button Grid.Row="2" Grid.Column="0" Height="30" Width="90" BorderThickness="4" Click="Init_Dealer_Card">Start</Button>
+            <Button Grid.Row="2" Grid.Column="0" Height="30" Width="90" BorderThickness="4" Click="Init_Dealer_And_Player_Card">Start</Button>
             <Button Grid.Row="2" Grid.Column="1" Height="30" Width="90" BorderThickness="4">Pass</Button>
 
             
@@ -39,8 +39,8 @@
                        Text="0" Foreground="White" FontSize="50" FontWeight="Bold" 
                        HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10"/>
             
-            <Canvas Grid.Row="4" Grid.Column="0" Height="210" Width="150" Background="White" Margin="10"/>
-            <Canvas Grid.Row="4" Grid.Column="1" Height="210" Width="150" Background="White" Margin="10"/>
+            <Canvas Name="PlayerCanvas1" Grid.Row="4" Grid.Column="0" Height="210" Width="150" Background="White" Margin="10"/>
+            <Canvas Name="PlayerCanvas2" Grid.Row="4" Grid.Column="1" Height="210" Width="150" Background="White" Margin="10"/>
        
         </Grid> 
         
