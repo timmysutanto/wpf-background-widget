@@ -25,6 +25,9 @@ public partial class MainWindow : Window
 
     private static List<string> CardsOnTable = new List<string>
     { };
+    private Canvas? _playerCanvas3;
+    private int playerCardsCount = 0;
+    private int dealerCardsCount = 0;
 
     [DllImport("user32.dll")]
     private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
@@ -45,6 +48,7 @@ public partial class MainWindow : Window
     
     private void Init_Dealer_And_Player_Card(object sender, RoutedEventArgs e)
     {
+        
         string cardSuitNumber;
         
         // First Dealer Card
@@ -53,7 +57,7 @@ public partial class MainWindow : Window
         {
             return;
         }
-        LoadImage(DealerCanvas1, "pack://application:,,,/Resources/Cards/" + cardSuitNumber + ".png");
+        DealerCanvas1 = LoadImage(DealerCanvas1, "pack://application:,,,/Resources/Cards/" + cardSuitNumber + ".png");
         
         // Second Dealer Card
         cardSuitNumber = GetRandomCardNumberSuit();
@@ -61,7 +65,7 @@ public partial class MainWindow : Window
         {
             return;
         }
-        LoadImage(DealerCanvas2,"pack://application:,,,/Resources/Cards/" + cardSuitNumber + ".png");
+        DealerCanvas2 = LoadImage(DealerCanvas2,"pack://application:,,,/Resources/Cards/" + cardSuitNumber + ".png");
         
         // First Player Card
         cardSuitNumber = GetRandomCardNumberSuit();
@@ -69,7 +73,7 @@ public partial class MainWindow : Window
         {
             return;
         }
-        LoadImage(PlayerCanvas1, "pack://application:,,,/Resources/Cards/" + cardSuitNumber + ".png");
+        PlayerCanvas1 = LoadImage(PlayerCanvas1, "pack://application:,,,/Resources/Cards/" + cardSuitNumber + ".png");
         
         // Second Player Card
         cardSuitNumber = GetRandomCardNumberSuit();
@@ -77,7 +81,32 @@ public partial class MainWindow : Window
         {
             return;
         }
-        LoadImage(PlayerCanvas2,"pack://application:,,,/Resources/Cards/" + cardSuitNumber + ".png");
+        PlayerCanvas2 = LoadImage(PlayerCanvas2,"pack://application:,,,/Resources/Cards/" + cardSuitNumber + ".png");
+
+        playerCardsCount += 2;
+        dealerCardsCount += 2;
+    }
+
+    private void Hit_Player_Card(object sender, RoutedEventArgs e)
+    {
+        // if (_playerCanvas3 != null)
+        // {
+        //     return;
+        // }
+
+        string cardSuitNumber = GetRandomCardNumberSuit();
+        playerCardsCount += 1;
+        if (cardSuitNumber == "")
+        {
+            return;
+        }
+        
+        FormLayoutGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+
+        _playerCanvas3 = CreateCardCanvas("pack://application:,,,/Resources/Cards/" + cardSuitNumber + ".png");
+        Grid.SetRow(_playerCanvas3, 4);
+        Grid.SetColumn(_playerCanvas3, playerCardsCount - 1);
+        FormLayoutGrid.Children.Add(_playerCanvas3);
     }
 
     private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -88,7 +117,7 @@ public partial class MainWindow : Window
     // private void Reset_Click(object sender, RoutedEventArgs e) => CounterDisplay.Text = (_count = 0).ToString();
     private void Exit_Click(object sender, RoutedEventArgs e) => Application.Current.Shutdown();
 
-    private void LoadImage(Canvas canvas, string imagePath)
+    private Canvas LoadImage(Canvas canvas, string imagePath)
     {
         BitmapImage  image = new BitmapImage();
         image.BeginInit();
@@ -101,9 +130,59 @@ public partial class MainWindow : Window
         img.Width = 150;
         img.Height = 210;
         img.Stretch = System.Windows.Media.Stretch.Uniform;
-        
-        canvas.Children.Clear();
+
+        Canvas newCanvas = new Canvas
+        {
+            Width = canvas.Width,
+            Height = canvas.Height,
+            Background = canvas.Background,
+            Margin = canvas.Margin,
+            HorizontalAlignment = canvas.HorizontalAlignment,
+            VerticalAlignment = canvas.VerticalAlignment
+        };
+        newCanvas.Children.Add(img);
+
+        Grid.SetRow(newCanvas, Grid.GetRow(canvas));
+        Grid.SetColumn(newCanvas, Grid.GetColumn(canvas));
+        Grid.SetRowSpan(newCanvas, Grid.GetRowSpan(canvas));
+        Grid.SetColumnSpan(newCanvas, Grid.GetColumnSpan(canvas));
+
+        if (canvas.Parent is Panel parent)
+        {
+            int index = parent.Children.IndexOf(canvas);
+            parent.Children.Remove(canvas);
+            parent.Children.Insert(index, newCanvas);
+        }
+
+        return newCanvas;
+    }
+
+    private Canvas CreateCardCanvas(string imagePath)
+    {
+        BitmapImage image = new BitmapImage();
+        image.BeginInit();
+        image.UriSource = new Uri(imagePath);
+        image.CacheOption = BitmapCacheOption.OnLoad;
+        image.EndInit();
+
+        Image img = new Image
+        {
+            Source = image,
+            Width = 150,
+            Height = 210,
+            Stretch = System.Windows.Media.Stretch.Uniform
+        };
+
+        Canvas canvas = new Canvas
+        {
+            Width = 150,
+            Height = 210,
+            Background = System.Windows.Media.Brushes.White,
+            Margin = new Thickness(10)
+        };
         canvas.Children.Add(img);
+
+        return canvas;
     }
 
     private string GetRandomCardNumberSuit()
