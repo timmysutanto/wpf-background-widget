@@ -16,7 +16,7 @@ public partial class MainWindow : Window
     private const uint SWP_NOACTIVATE = 0x0010;
     private static readonly List<string> CardSuits = new List<string>
     {
-        "club", "spade", "heart", "heart"
+        "club", "spade", "heart", "diamond"
     };
     private static readonly List<string> CardNumbers = new List<string>
     {
@@ -53,7 +53,7 @@ public partial class MainWindow : Window
         {
             return;
         }
-        LoadImage(DealerCanvas1, "pack://application:,,,/Resources/Cards/" + GetRandomCardNumberSuit() + ".png");
+        LoadImage(DealerCanvas1, "pack://application:,,,/Resources/Cards/" + cardSuitNumber + ".png");
         
         // Second Card
         cardSuitNumber = GetRandomCardNumberSuit();
@@ -61,7 +61,7 @@ public partial class MainWindow : Window
         {
             return;
         }
-        LoadImage(DealerCanvas2,"pack://application:,,,/Resources/Cards/" + GetRandomCardNumberSuit() + ".png");
+        LoadImage(DealerCanvas2,"pack://application:,,,/Resources/Cards/" + cardSuitNumber + ".png");
     }
 
     private void Window_MouseDown(object sender, MouseButtonEventArgs e)
